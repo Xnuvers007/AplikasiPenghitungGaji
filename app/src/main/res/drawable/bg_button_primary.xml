@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Gradient background untuk splash & header -->
+<!-- Background gradient untuk tombol utama -->
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <gradient
         android:type="linear"
-        android:angle="135"
+        android:angle="0"
         android:startColor="#4F46E5"
-        android:centerColor="#6D28D9"
         android:endColor="#7C3AED"/>
+    <corners android:radius="12dp"/>
 </shape>

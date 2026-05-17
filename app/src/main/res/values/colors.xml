@@ -1,9 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Brand Colors -->
+    <color name="primary">#4F46E5</color>
+    <color name="primaryDark">#3730A3</color>
+    <color name="primaryLight">#6366F1</color>
+    <color name="accent">#7C3AED</color>
+    <color name="accentLight">#A78BFA</color>
 
-    <color name="primary">#1565C0</color>
-    <color name="primaryDark">#0D47A1</color>
+    <!-- Backgrounds -->
+    <color name="bg">#F0F0FF</color>
+    <color name="bgCard">#FFFFFF</color>
+    <color name="bgGradientStart">#4F46E5</color>
+    <color name="bgGradientEnd">#7C3AED</color>
+
+    <!-- Text -->
+    <color name="textPrimary">#1E1B4B</color>
+    <color name="textSecondary">#6B7280</color>
+    <color name="textWhite">#FFFFFF</color>
+    <color name="textHint">#9CA3AF</color>
+
+    <!-- UI Elements -->
     <color name="white">#FFFFFF</color>
-    <color name="bg">#F4F6F9</color>
+    <color name="divider">#E5E7EB</color>
+    <color name="success">#10B981</color>
+    <color name="warning">#F59E0B</color>
+    <color name="inputBg">#F9FAFB</color>
+    <color name="inputBorder">#D1D5DB</color>
+    <color name="shadow">#1A4F46E5</color>
 
+    <!-- Bottom Navigation -->
+    <color name="navBg">#FFFFFF</color>
+    <color name="navActive">#4F46E5</color>
+    <color name="navInactive">#9CA3AF</color>
 </resources>

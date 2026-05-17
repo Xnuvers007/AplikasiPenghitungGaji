@@ -1,140 +1,259 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android=
-    "http://schemas.android.com/apk/res/android"
-
-    xmlns:app=
-        "http://schemas.android.com/apk/res-auto"
-
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-
     android:layout_height="match_parent"
-
+    android:orientation="vertical"
     android:background="@color/bg">
 
+    <!-- Header -->
     <LinearLayout
         android:layout_width="match_parent"
-
-        android:layout_height="wrap_content"
-
+        android:layout_height="130dp"
         android:orientation="vertical"
+        android:gravity="center_horizontal|bottom"
+        android:paddingBottom="20dp"
+        android:background="@drawable/background_splash">
 
-        android:padding="20dp">
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="📋 Form Input Gaji"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
 
-            app:cardCornerRadius="15dp"
-
-            app:cardElevation="5dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-
-                android:layout_height="wrap_content"
-
-                android:orientation="vertical"
-
-                android:padding="20dp">
-
-                <EditText
-                    android:id="@+id/etNama"
-
-                    android:layout_width="match_parent"
-
-                    android:layout_height="wrap_content"
-
-                    android:hint="Nama Karyawan"/>
-
-                <EditText
-                    android:id="@+id/etHadir"
-
-                    android:layout_width="match_parent"
-
-                    android:layout_height="wrap_content"
-
-                    android:hint="Jumlah Hadir"
-
-                    android:inputType="number"/>
-
-                <EditText
-                    android:id="@+id/etGaji"
-
-                    android:layout_width="match_parent"
-
-                    android:layout_height="wrap_content"
-
-                    android:hint="Gaji per Hari"
-
-                    android:inputType="number"/>
-
-                <EditText
-                    android:id="@+id/etBonus"
-
-                    android:layout_width="match_parent"
-
-                    android:layout_height="wrap_content"
-
-                    android:hint="Bonus"
-
-                    android:inputType="number"/>
-
-                <EditText
-                    android:id="@+id/etPotongan"
-
-                    android:layout_width="match_parent"
-
-                    android:layout_height="wrap_content"
-
-                    android:hint="Potongan"
-
-                    android:inputType="number"/>
-
-                <Button
-                    android:id="@+id/btnHitung"
-
-                    android:layout_width="match_parent"
-
-                    android:layout_height="wrap_content"
-
-                    android:text="Hitung Gaji"
-
-                    android:layout_marginTop="15dp"/>
-
-                <TextView
-                    android:id="@+id/tvHasil"
-
-                    android:layout_width="match_parent"
-
-                    android:layout_height="wrap_content"
-
-                    android:text="Hasil"
-
-                    android:textSize="18sp"
-
-                    android:textStyle="bold"
-
-                    android:layout_marginTop="20dp"/>
-
-                <!-- Tombol kembali ke Home -->
-                <Button
-                    android:id="@+id/btnKembali"
-
-                    android:layout_width="match_parent"
-
-                    android:layout_height="wrap_content"
-
-                    android:text="Kembali ke Home"
-
-                    android:layout_marginTop="10dp"
-
-                    android:backgroundTint="#6B7280"/>
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Isi semua data dengan benar"
+            android:textColor="#C4B5FD"
+            android:textSize="13sp"
+            android:layout_marginTop="4dp"/>
 
     </LinearLayout>
 
-</ScrollView>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <!-- Card Form -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-20dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="10dp"
+                app:cardBackgroundColor="#FFFFFF">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="24dp">
+
+                    <!-- Nama Karyawan -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="👤  Nama Karyawan"
+                        android:textColor="@color/textPrimary"
+                        android:textSize="13sp"
+                        android:textStyle="bold"/>
+
+                    <EditText
+                        android:id="@+id/etNama"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginBottom="16dp"
+                        android:background="@drawable/bg_input"
+                        android:hint="Nama lengkap karyawan"
+                        android:textColorHint="#9CA3AF"
+                        android:textColor="@color/textPrimary"
+                        android:textSize="15sp"
+                        android:paddingStart="14dp"
+                        android:paddingEnd="14dp"
+                        android:inputType="textPersonName"/>
+
+                    <!-- Jumlah Hadir -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="📅  Jumlah Hadir (hari)"
+                        android:textColor="@color/textPrimary"
+                        android:textSize="13sp"
+                        android:textStyle="bold"/>
+
+                    <EditText
+                        android:id="@+id/etHadir"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginBottom="16dp"
+                        android:background="@drawable/bg_input"
+                        android:hint="Contoh: 22"
+                        android:textColorHint="#9CA3AF"
+                        android:textColor="@color/textPrimary"
+                        android:textSize="15sp"
+                        android:paddingStart="14dp"
+                        android:paddingEnd="14dp"
+                        android:inputType="number"/>
+
+                    <!-- Gaji per Hari -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="💰  Gaji per Hari (Rp)"
+                        android:textColor="@color/textPrimary"
+                        android:textSize="13sp"
+                        android:textStyle="bold"/>
+
+                    <EditText
+                        android:id="@+id/etGaji"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginBottom="16dp"
+                        android:background="@drawable/bg_input"
+                        android:hint="Contoh: 150000"
+                        android:textColorHint="#9CA3AF"
+                        android:textColor="@color/textPrimary"
+                        android:textSize="15sp"
+                        android:paddingStart="14dp"
+                        android:paddingEnd="14dp"
+                        android:inputType="number"/>
+
+                    <!-- Bonus -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="🎁  Bonus (Rp)"
+                        android:textColor="@color/textPrimary"
+                        android:textSize="13sp"
+                        android:textStyle="bold"/>
+
+                    <EditText
+                        android:id="@+id/etBonus"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginBottom="16dp"
+                        android:background="@drawable/bg_input"
+                        android:hint="Contoh: 500000"
+                        android:textColorHint="#9CA3AF"
+                        android:textColor="@color/textPrimary"
+                        android:textSize="15sp"
+                        android:paddingStart="14dp"
+                        android:paddingEnd="14dp"
+                        android:inputType="number"/>
+
+                    <!-- Potongan -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="✂️  Potongan (Rp)"
+                        android:textColor="@color/textPrimary"
+                        android:textSize="13sp"
+                        android:textStyle="bold"/>
+
+                    <EditText
+                        android:id="@+id/etPotongan"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginBottom="24dp"
+                        android:background="@drawable/bg_input"
+                        android:hint="Contoh: 100000"
+                        android:textColorHint="#9CA3AF"
+                        android:textColor="@color/textPrimary"
+                        android:textSize="15sp"
+                        android:paddingStart="14dp"
+                        android:paddingEnd="14dp"
+                        android:inputType="number"/>
+
+                    <!-- Tombol Hitung -->
+                    <Button
+                        android:id="@+id/btnHitung"
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:text="🔢  HITUNG GAJI"
+                        android:textColor="#FFFFFF"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:background="@drawable/bg_button_primary"/>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- Card Hasil -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="6dp"
+                app:cardBackgroundColor="#FFFFFF">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="📊 Hasil Perhitungan"
+                        android:textColor="@color/primary"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="12dp"/>
+
+                    <!-- Divider -->
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/divider"
+                        android:layout_marginBottom="14dp"/>
+
+                    <TextView
+                        android:id="@+id/tvHasil"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Hasil akan tampil di sini setelah klik Hitung Gaji."
+                        android:textColor="@color/textSecondary"
+                        android:textSize="14sp"
+                        android:lineSpacingExtra="6dp"/>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- Tombol Kembali -->
+            <Button
+                android:id="@+id/btnKembali"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="← Kembali ke Home"
+                android:textColor="@color/primary"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:background="@drawable/bg_button_secondary"
+                android:layout_marginTop="14dp"
+                android:layout_marginBottom="10dp"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>
