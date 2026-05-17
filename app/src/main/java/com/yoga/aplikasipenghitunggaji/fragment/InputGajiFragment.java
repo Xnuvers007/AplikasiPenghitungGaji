@@ -17,10 +17,9 @@ import com.yoga.aplikasipenghitunggaji.R;
 
 public class InputGajiFragment extends Fragment {
 
-    EditText etNama, etHadir,
-            etGaji, etBonus, etPotongan;
+    EditText etNama, etHadir, etGaji, etBonus, etPotongan;
 
-    Button btnHitung;
+    Button btnHitung, btnKembali;
 
     TextView tvHasil;
 
@@ -35,26 +34,18 @@ public class InputGajiFragment extends Fragment {
                 container,
                 false);
 
-        etNama = view.findViewById(R.id.etNama);
-
-        etHadir = view.findViewById(R.id.etHadir);
-
-        etGaji = view.findViewById(R.id.etGaji);
-
-        etBonus = view.findViewById(R.id.etBonus);
-
-        etPotongan =
-                view.findViewById(R.id.etPotongan);
-
-        btnHitung =
-                view.findViewById(R.id.btnHitung);
-
-        tvHasil =
-                view.findViewById(R.id.tvHasil);
+        etNama     = view.findViewById(R.id.etNama);
+        etHadir    = view.findViewById(R.id.etHadir);
+        etGaji     = view.findViewById(R.id.etGaji);
+        etBonus    = view.findViewById(R.id.etBonus);
+        etPotongan = view.findViewById(R.id.etPotongan);
+        btnHitung  = view.findViewById(R.id.btnHitung);
+        btnKembali = view.findViewById(R.id.btnKembali);
+        tvHasil    = view.findViewById(R.id.tvHasil);
 
         btnHitung.setOnClickListener(v -> {
 
-            if(etNama.getText().toString().isEmpty()
+            if (etNama.getText().toString().isEmpty()
                     || etHadir.getText().toString().isEmpty()
                     || etGaji.getText().toString().isEmpty()
                     || etBonus.getText().toString().isEmpty()
@@ -67,38 +58,31 @@ public class InputGajiFragment extends Fragment {
 
             } else {
 
-                String nama =
-                        etNama.getText().toString();
-
-                int hadir =
-                        Integer.parseInt(
-                                etHadir.getText().toString());
-
-                int gaji =
-                        Integer.parseInt(
-                                etGaji.getText().toString());
-
-                int bonus =
-                        Integer.parseInt(
-                                etBonus.getText().toString());
-
-                int potongan =
-                        Integer.parseInt(
-                                etPotongan.getText().toString());
-
-                int total =
-                        (hadir * gaji)
-                                + bonus
-                                - potongan;
+                String nama    = etNama.getText().toString();
+                int hadir      = Integer.parseInt(etHadir.getText().toString());
+                int gaji       = Integer.parseInt(etGaji.getText().toString());
+                int bonus      = Integer.parseInt(etBonus.getText().toString());
+                int potongan   = Integer.parseInt(etPotongan.getText().toString());
+                int total      = (hadir * gaji) + bonus - potongan;
 
                 tvHasil.setText(
-
                         "Nama : " + nama +
-
-                                "\nJumlah Hadir : " + hadir +
-
-                                "\nTotal Gaji : Rp " + total
+                        "\nJumlah Hadir : " + hadir +
+                        "\nTotal Gaji : Rp " + total
                 );
+            }
+        });
+
+        // FIX: Tombol kembali ke Home menggunakan back stack
+        btnKembali.setOnClickListener(v -> {
+            if (requireActivity().getSupportFragmentManager().getBackStackEntryCount() > 0) {
+                requireActivity().getSupportFragmentManager().popBackStack();
+            } else {
+                // Fallback: langsung load HomeFragment jika back stack kosong
+                requireActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frameLayout, new HomeFragment())
+                        .commit();
             }
         });
 

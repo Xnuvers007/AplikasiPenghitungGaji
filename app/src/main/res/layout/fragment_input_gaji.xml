@@ -117,10 +117,24 @@
 
                     android:layout_marginTop="20dp"/>
 
+                <!-- Tombol kembali ke Home -->
+                <Button
+                    android:id="@+id/btnKembali"
+
+                    android:layout_width="match_parent"
+
+                    android:layout_height="wrap_content"
+
+                    android:text="Kembali ke Home"
+
+                    android:layout_marginTop="10dp"
+
+                    android:backgroundTint="#6B7280"/>
+
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
 
     </LinearLayout>
 
-</ScrollView>
+</ScrollView>

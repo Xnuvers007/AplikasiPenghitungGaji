@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.yoga.aplikasipenghitunggaji.MainActivity;
 import com.yoga.aplikasipenghitunggaji.R;
 
 public class HomeFragment extends Fragment {
@@ -30,18 +31,15 @@ public class HomeFragment extends Fragment {
                 container,
                 false);
 
-        btnInputGaji =
-                view.findViewById(R.id.btnInputGaji);
+        btnInputGaji = view.findViewById(R.id.btnInputGaji);
 
         btnInputGaji.setOnClickListener(v -> {
-
-            requireActivity()
-                    .getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(
-                            R.id.frameLayout,
-                            new InputGajiFragment())
-                    .commit();
+            // Navigasi ke InputGajiFragment sebagai sub-halaman (navItemId = -1)
+            // sehingga tab Home tetap terpilih dan back stack bisa kembali
+            if (getActivity() instanceof MainActivity) {
+                ((MainActivity) getActivity())
+                        .navigateToFragment(new InputGajiFragment(), -1);
+            }
         });
 
         return view;
