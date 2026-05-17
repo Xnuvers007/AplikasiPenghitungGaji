@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android=
+    "http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menu_utama"
+        android:title="Menu Utama"
+        android:icon=
+            "@android:drawable/ic_menu_view"/>
+
+    <item
+        android:id="@+id/menu_tentang"
+        android:title="Tentang"
+        android:icon=
+            "@android:drawable/ic_menu_info_details"/>
+
+</menu>
