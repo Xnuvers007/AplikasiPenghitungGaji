@@ -13,9 +13,3 @@
 .externalNativeBuild
 .cxx
 local.properties
-
-# ── Keystore — JANGAN PERNAH COMMIT ke Git! ──────────────────────────────────
-keystore/
-*.keystore
-*.jks
-*.b64
