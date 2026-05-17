@@ -13,7 +13,7 @@ permissions:
 
 jobs:
   build-and-release:
-    name: Build APK & Create Release
+    name: Build Release APK & Publish
     runs-on: ubuntu-latest
 
     steps:
@@ -23,7 +23,7 @@ jobs:
         with:
           fetch-depth: 0   # Ambil semua history agar kita bisa baca tag lama
 
-      # ── 2. Setup Java (sesuai compileOptions di build.gradle.kts) ───────
+      # ── 2. Setup Java 17 ─────────────────────────────────────────────────
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
@@ -35,14 +35,11 @@ jobs:
       - name: Determine next version tag
         id: version
         run: |
-          # Ambil semua tag yang cocok pola V<angka>.<angka>
           LAST_TAG=$(git tag --list 'V*.*' | sort -t'.' -k1,1V -k2,2n | tail -1)
 
           if [ -z "$LAST_TAG" ]; then
-            # Belum ada tag sama sekali → mulai dari V1.0
             NEXT_TAG="V1.0"
           else
-            # Pisahkan major.minor
             MAJOR=$(echo "$LAST_TAG" | grep -oP '(?<=V)\d+(?=\.)')
             MINOR=$(echo "$LAST_TAG" | grep -oP '\d+$')
             NEXT_MINOR=$((MINOR + 1))
@@ -56,60 +53,82 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      # ── 5. Build debug APK (tidak perlu keystore) ───────────────────────
-      - name: Build Debug APK
-        run: ./gradlew assembleDebug --no-daemon
+      # ── 5. Decode Keystore dari GitHub Secret ────────────────────────────
+      #       Perlu setup secret: KEYSTORE_BASE64, KEYSTORE_PASSWORD,
+      #       KEY_ALIAS, KEY_PASSWORD  (lihat README)
+      - name: Decode Keystore
+        run: |
+          mkdir -p keystore
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > keystore/release.keystore
+          echo "Keystore decoded: $(ls -lh keystore/release.keystore)"
 
-      # ── 6. Rename APK sesuai versi ──────────────────────────────────────
+      # ── 6. Build RELEASE APK dengan R8 obfuscation ───────────────────────
+      - name: Build Release APK
+        run: ./gradlew assembleRelease --no-daemon
+        env:
+          KEYSTORE_PATH:     keystore/release.keystore
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS:         ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD:      ${{ secrets.KEY_PASSWORD }}
+
+      # ── 7. Rename APK sesuai versi ──────────────────────────────────────
       - name: Rename APK
         id: rename_apk
         run: |
           TAG="${{ steps.version.outputs.NEXT_TAG }}"
-          APK_SRC=$(find app/build/outputs/apk/debug -name "*.apk" | head -1)
-          APK_DST="AplikasiPenghitungGaji-${TAG}-debug.apk"
+          APK_SRC=$(find app/build/outputs/apk/release -name "*.apk" | head -1)
+          APK_DST="AplikasiPenghitungGaji-${TAG}.apk"
           cp "$APK_SRC" "$APK_DST"
           echo "APK_PATH=$APK_DST" >> $GITHUB_OUTPUT
           echo "APK_NAME=$APK_DST" >> $GITHUB_OUTPUT
+          echo "APK size: $(ls -lh $APK_DST | awk '{print $5}')"
 
-      # ── 7. Buat Git Tag ─────────────────────────────────────────────────
+      # ── 8. Buat Git Tag ─────────────────────────────────────────────────
       - name: Create Git Tag
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git tag "${{ steps.version.outputs.NEXT_TAG }}"
-          # Gunakan URL yang sudah embed GITHUB_TOKEN agar push terautentikasi
           git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git "${{ steps.version.outputs.NEXT_TAG }}"
 
-      # ── 8. Generate Release Notes & Publish ke GitHub Releases ──────────
+      # ── 9. Publish ke GitHub Releases ───────────────────────────────────
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name:   ${{ steps.version.outputs.NEXT_TAG }}
-          name:       "Release ${{ steps.version.outputs.NEXT_TAG }}"
+          name:       "🚀 Release ${{ steps.version.outputs.NEXT_TAG }}"
           body: |
             ## 🚀 Aplikasi Penghitung Gaji — ${{ steps.version.outputs.NEXT_TAG }}
 
-            ### ✅ Perubahan di rilis ini
-            - Build otomatis dari branch `${{ github.ref_name }}`
-            - Commit: `${{ github.sha }}`
-            - Dipicu oleh: `${{ github.actor }}`
+            ### ✅ Informasi Build
+            | | |
+            |---|---|
+            | **Branch** | `${{ github.ref_name }}` |
+            | **Commit** | `${{ github.sha }}` |
+            | **Build Type** | Release (R8 Obfuscated) |
+            | **Dipicu oleh** | `${{ github.actor }}` |
+
+            ### 🔒 Keamanan APK
+            - ✅ **R8 Full Mode** — kode di-obfuscate & di-optimize
+            - ✅ **Resource Shrinking** — resource tidak terpakai dihapus
+            - ✅ **ProGuard Rules** — perlindungan terhadap reverse engineering
+            - ✅ **Signed** — APK ditandatangani dengan release keystore
 
             ### 📦 File APK
             | File | Keterangan |
             |------|-----------|
-            | `${{ steps.rename_apk.outputs.APK_NAME }}` | Debug APK — langsung bisa install |
+            | `${{ steps.rename_apk.outputs.APK_NAME }}` | ✅ Release APK — siap produksi |
 
             ### 📲 Cara Install
             1. Download APK di bawah
-            2. Aktifkan *"Install dari sumber tidak dikenal"* di pengaturan HP
+            2. Aktifkan **"Install dari sumber tidak dikenal"** di pengaturan HP
             3. Buka file APK dan install
 
             ---
-            > _Release ini dibuat secara otomatis oleh GitHub Actions._
+            > _Release ini dibuat secara otomatis oleh GitHub Actions dengan R8 obfuscation._
           files: ${{ steps.rename_apk.outputs.APK_PATH }}
-          generate_release_notes: true   # Tambahkan auto-generated PR/commit notes dari GitHub
+          generate_release_notes: true
           draft: false
           prerelease: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          
