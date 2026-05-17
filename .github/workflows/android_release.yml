@@ -7,6 +7,10 @@ on:
       - master
   workflow_dispatch:   # Bisa dijalankan manual dari GitHub Actions tab
 
+# ── WAJIB: beri izin write agar bot bisa buat tag & release ────────────────
+permissions:
+  contents: write
+
 jobs:
   build-and-release:
     name: Build APK & Create Release
@@ -73,7 +77,8 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git tag "${{ steps.version.outputs.NEXT_TAG }}"
-          git push origin "${{ steps.version.outputs.NEXT_TAG }}"
+          # Gunakan URL yang sudah embed GITHUB_TOKEN agar push terautentikasi
+          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git "${{ steps.version.outputs.NEXT_TAG }}"
 
       # ── 8. Generate Release Notes & Publish ke GitHub Releases ──────────
       - name: Create GitHub Release
